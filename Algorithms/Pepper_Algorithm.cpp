@@ -50,6 +50,10 @@ void phosphorus_message(float, float);
     const int low_phosphorus_alkaline=10;
     const int medium_phosphorus_alkaline=20;
     const int high_phosphorus_alkaline=40;
+
+
+//global variable for final message
+    string str="";
 int main()
 {
     //Parameters
@@ -66,7 +70,8 @@ int main()
     cin>>germination;
 
     if(germination!=0 && germination!=1){
-        cout<<"Invalid Input"<<endl;
+        str+="Invalid Input\n";
+        cout<<str<<endl;
         return 0;
     }
 
@@ -137,108 +142,109 @@ int main()
     cin>>air_humidity;
 
 
+    cout<<str<<endl;
     return 0;
 }
 
 void temperature_germination(float temperature){
     if(temperature<min_soiltemp_germination)
-        cout<<"Temperaturata na pochvata e pod minimalnata temperatura za seenje i 'rtenje na semeto. (Minimalnata temperatura e 11 C)"<<endl;
+        str+="Temperaturata na pochvata e pod minimalnata temperatura za seenje i 'rtenje na semeto. (Minimalnata temperatura e 11 C)\n";
     else if(temperature>min_soiltemp_germination-1 && temperature<minoptimal_soiltemp_germination)
-        cout<<"Temperaturata na pochvata e pod optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)"<<endl;
+        str+="Temperaturata na pochvata e pod optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
     else if(temperature>minoptimal_soiltemp_germination-1 && temperature<maxoptimal_soiltemp_germination+1)
-        cout<<"Temperaturata na pochvata e optimalna za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)"<<endl;
+        str+="Temperaturata na pochvata e optimalna za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
     else
-        cout<<"Temperaturata na pochvata e nad optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)"<<endl;
+        str+="Temperaturata na pochvata e nad optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
 
 }
 
 void temperature_growth(float temperature){
     if(temperature<1)
-        cout<<"Temperaturata na pochvata e poniska ili ednakva na 0 C, a mrazot potpolno ja unishtuva piperkata. (Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e poniska ili ednakva na 0 C, a mrazot potpolno ja unishtuva piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>zero_growth && temperature<wither_growth)
-        cout<<"Temperaturata na pochvata e poniska od 10 C, pri shto doagja do veneenje, zholteenje na lisjata i podocna do zastoj vo rastot na piperkata. (Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e poniska od 10 C, pri shto doagja do veneenje, zholteenje na lisjata i podocna do zastoj vo rastot na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>=wither_growth && temperature<minoptimal_soiltemp_growth)
-        cout<<"Temperaturata na pochvata e poniska od 16 C, shto potpolno go zaostanuva rastot na piperkata.(Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e poniska od 16 C, shto potpolno go zaostanuva rastot na piperkata.(Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>=minoptimal_soiltemp_germination && temperature<=maxoptimal_soiltemp_growth)
-        cout<<"Temperaturata na pochvata e optimalna za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e optimalna za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>maxoptimal_soiltemp_growth && temperature<=death_growth)
-        cout<<"Temperaturata na pochvata e nad optimalnata temperatura za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e nad optimalnata temperatura za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else
-        cout<<"Temperaturata na pochvata e nad 30 C, toa negativno deluva na razvojot so namaluvanje na sposobnosta za oploduvanje na cvetovite, nivno opagjanje i otfrlanje na vekje-formiranite plodovi na piperkata. (Optimalnata temperatura e 16-25 C)"<<endl;
+        str+="Temperaturata na pochvata e nad 30 C, toa negativno deluva na razvojot so namaluvanje na sposobnosta za oploduvanje na cvetovite, nivno opagjanje i otfrlanje na vekje-formiranite plodovi na piperkata. (Optimalnata temperatura e 16-25 C)\n";
 }
 
 
 void moisture_message(float moisture){
     if(moisture<min_optimal_moisture)
-        cout<<"Vlazhnnosta na pochvata e pod optimalata. (Optimalna vlazhnost e 75%-80%)"<<endl;
+        str+="Vlazhnnosta na pochvata e pod optimalata. (Optimalna vlazhnost e 75%-80%)\n";
     else if(moisture>=min_optimal_moisture && moisture<=max_optimal_moisture)
-        cout<<"Vlazhnosta na pochvata e optimalna. (Optimalna vlazhnost e 75%-80%)"<<endl;
+        str+="Vlazhnosta na pochvata e optimalna. (Optimalna vlazhnost e 75%-80%)\n";
     else
-        cout<<"Vlazhnnosta na pochvata e nad optimalata. (Optimalna vlazhnost e 75%-80%)"<<endl;
+        str+="Vlazhnnosta na pochvata e nad optimalata. (Optimalna vlazhnost e 75%-80%)\n";
 }
 
 
 void electrical_conductivity_message(float electrical_conductivity){
     if(electrical_conductivity>=warning_electrical_conductivity)
-        cout<<"Elektrichnata sprovodnost e nad optimalata, namaluvajkji go prinosot za 75%-90%."<<endl;
+        str+="Elektrichnata sprovodnost e nad optimalata, namaluvajkji go prinosot za 75%-90%.\n";
 }
 
 
 void ph_message(float ph){
     if(ph<5.5)
-        cout<<"Pochvata e premnogu kisela, izvrshi kalifikacija. (Optimalna ph vrednost 5.5-7.0)"<<endl;
+        str+="Pochvata e premnogu kisela, izvrshi kalifikacija. (Optimalna ph vrednost 5.5-7.0)\n";
     else if(ph>7)
-        cout<<"Pochvata e premnogu bazna(alkalna). (Optimalna ph vrednost 5.5-7.0)"<<endl;
+        str+="Pochvata e premnogu bazna(alkalna). (Optimalna ph vrednost 5.5-7.0)\n";
     else
-        cout<<"PH vrednosta na pochvata e optimalna. (Optimalna ph vrednost 5.5-7.0)"<<endl;
+        str+="PH vrednosta na pochvata e optimalna. (Optimalna ph vrednost 5.5-7.0)\n";
 }
 
 
 void nitrogen_message(float nitrogen){
     if(nitrogen<low_nitrogen)
-        cout<<"Niska zastapenost na nitraten azot vo pochvata (Niska zastapenost <10 ppm (mg/kg))"<<endl;
+        str+="Niska zastapenost na nitraten azot vo pochvata (Niska zastapenost <10 ppm (mg/kg))\n";
     else if(nitrogen>=low_nitrogen && nitrogen<=medium_nitrogen)
-        cout<<"Sredna zastapenost na nitraten azot vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))"<<endl;
+        str+="Sredna zastapenost na nitraten azot vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))\n";
     else if(nitrogen>medium_nitrogen && nitrogen<=high_nitrogen)
-        cout<<"Visoka zastapenost na nitraten azot vo pochvata (Visoka zastapenost 21-30 ppm (mg/kg))"<<endl;
+        str+="Visoka zastapenost na nitraten azot vo pochvata (Visoka zastapenost 21-30 ppm (mg/kg))\n";
     else
-        cout<<"Prekumerna zastapenost na nitraten azot vo pochvata (Prekumerna zastapenost >30 ppm (mg/kg))"<<endl;
+        str+="Prekumerna zastapenost na nitraten azot vo pochvata (Prekumerna zastapenost >30 ppm (mg/kg))\n";
 }
 
 
 void potassium_message(float potassium){
     if(potassium<verylow_potassium)
-        cout<<"Preniska zastapenost na kalium vo pochvata (Preniska zastapenost <75 ppm (mg/kg))"<<endl;
+        str+="Preniska zastapenost na kalium vo pochvata (Preniska zastapenost <75 ppm (mg/kg))\n";
     else if(potassium>=verylow_potassium && potassium<=low_potassium)
-        cout<<"Niska zastapenost na kalium vo pochvata (Niska zastapenost 75-150 ppm (mg/kg))"<<endl;
+        str+="Niska zastapenost na kalium vo pochvata (Niska zastapenost 75-150 ppm (mg/kg))\n";
     else if(potassium>low_potassium && potassium<=medium_potassium)
-        cout<<"Sredna zastapenost na kalium vo pochvata (Sredna zastapenost 151-250 ppm (mg/kg))"<<endl;
+        str+="Sredna zastapenost na kalium vo pochvata (Sredna zastapenost 151-250 ppm (mg/kg))\n";
     else if(potassium>medium_potassium && potassium<=high_potassium)
-        cout<<"Visoka zastapenost na kalium vo pochvata (Visoka zastapenost 251-800 ppm (mg/kg))"<<endl;
+        str+="Visoka zastapenost na kalium vo pochvata (Visoka zastapenost 251-800 ppm (mg/kg))\n";
     else
-        cout<<"Prekumerna zastapenost na kalium vo pochvata (Prekumerna zastapenost >800 ppm (mg/kg))"<<endl;
+        str+="Prekumerna zastapenost na kalium vo pochvata (Prekumerna zastapenost >800 ppm (mg/kg))\n";
 }
 
 
 void phosphorus_message(float phosphorus, float ph){
     if(ph<=7){ //bray p1 method
         if(phosphorus<low_phosphorus_neutralacid)
-        cout<<"Niska zastapenost na fosfor vo pochvata (Niska zastapenost <20 ppm (mg/kg))"<<endl;
+        str+="Niska zastapenost na fosfor vo pochvata (Niska zastapenost <20 ppm (mg/kg))\n";
     else if(phosphorus>=low_phosphorus_neutralacid && phosphorus<=medium_phosphorus_neutralacid)
-        cout<<"Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 20-40 ppm (mg/kg))"<<endl;
+        str+="Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 20-40 ppm (mg/kg))\n";
     else if(phosphorus>medium_phosphorus_neutralacid && phosphorus<=high_phosphorus_neutralacid)
-        cout<<"Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 41-100 ppm (mg/kg))"<<endl;
+        str+="Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 41-100 ppm (mg/kg))\n";
     else
-        cout<<"Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >100 ppm (mg/kg))"<<endl;
+        str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >100 ppm (mg/kg))\n";
     }
     else if(ph>7){ //olsen method
         if(phosphorus<low_phosphorus_alkaline)
-        cout<<"Niska zastapenost na fosfor vo pochvata (Niska zastapenost <10 ppm (mg/kg))"<<endl;
+        str+="Niska zastapenost na fosfor vo pochvata (Niska zastapenost <10 ppm (mg/kg))\n";
     else if(phosphorus>=low_phosphorus_alkaline && phosphorus<=medium_phosphorus_alkaline)
-        cout<<"Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))"<<endl;
+        str+="Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))\n";
     else if(phosphorus>medium_phosphorus_alkaline && phosphorus<=high_phosphorus_alkaline)
-        cout<<"Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 21-40 ppm (mg/kg))"<<endl;
+        str+="Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 21-40 ppm (mg/kg))\n";
     else
-        cout<<"Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >40 ppm (mg/kg))"<<endl;
+        str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >40 ppm (mg/kg))\n";
     }
 }
