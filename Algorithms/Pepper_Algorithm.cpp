@@ -10,6 +10,7 @@ void ph_message(float);
 void nitrogen_message(float);
 void potassium_message(float);
 void phosphorus_message(float, float);
+void tds_message(float);
 
 //global variables for temperature
     const int min_soiltemp_germination=11;
@@ -26,7 +27,7 @@ void phosphorus_message(float, float);
     const int max_optimal_moisture=80;
 
 //global variables for electrical conductivity
-    const int warning_electrical_conductivity=150000;
+    const int warning_electrical_conductivity=1500;
 
 //global variables for ph
     const float min_optimal_ph=5.5;
@@ -50,6 +51,10 @@ void phosphorus_message(float, float);
     const int low_phosphorus_alkaline=10;
     const int medium_phosphorus_alkaline=20;
     const int high_phosphorus_alkaline=40;
+
+//global variables for total dissolved solids
+    const int min_optimal_tds=1400;
+    const int max_optimal_tds=2100;
 
 
 //global variable for final message
@@ -130,6 +135,8 @@ int main()
 //total dissolved solids
     cout<<"Input Total Dissolved Solids:"<<endl;
     cin>>total_dissolved_solids;
+    tds_message(total_dissolved_solids);
+
 
 
 //air temperature
@@ -149,12 +156,14 @@ int main()
 void temperature_germination(float temperature){
     if(temperature<min_soiltemp_germination)
         str+="Temperaturata na pochvata e pod minimalnata temperatura za seenje i 'rtenje na semeto. (Minimalnata temperatura e 11 C)\n";
-    else if(temperature>min_soiltemp_germination-1 && temperature<minoptimal_soiltemp_germination)
+    else if(temperature>=min_soiltemp_germination && temperature<minoptimal_soiltemp_germination)
         str+="Temperaturata na pochvata e pod optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
-    else if(temperature>minoptimal_soiltemp_germination-1 && temperature<maxoptimal_soiltemp_germination+1)
+    else if(temperature>=minoptimal_soiltemp_germination && temperature<=maxoptimal_soiltemp_germination)
         str+="Temperaturata na pochvata e optimalna za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
-    else
+    else if(temperature>maxoptimal_soiltemp_germination)
         str+="Temperaturata na pochvata e nad optimalnata temperatura za seenje i 'rtenje na semeto. (Optimalnata temperatura e 25-30 C)\n";
+    else
+        str+="Error";
 
 }
 
@@ -169,8 +178,10 @@ void temperature_growth(float temperature){
         str+="Temperaturata na pochvata e optimalna za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>maxoptimal_soiltemp_growth && temperature<=death_growth)
         str+="Temperaturata na pochvata e nad optimalnata temperatura za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
-    else
+    else if(temperature>death_growth)
         str+="Temperaturata na pochvata e nad 30 C, toa negativno deluva na razvojot so namaluvanje na sposobnosta za oploduvanje na cvetovite, nivno opagjanje i otfrlanje na vekje-formiranite plodovi na piperkata. (Optimalnata temperatura e 16-25 C)\n";
+    else
+        str+="Error";
 }
 
 
@@ -179,8 +190,10 @@ void moisture_message(float moisture){
         str+="Vlazhnnosta na pochvata e pod optimalata. (Optimalna vlazhnost e 75%-80%)\n";
     else if(moisture>=min_optimal_moisture && moisture<=max_optimal_moisture)
         str+="Vlazhnosta na pochvata e optimalna. (Optimalna vlazhnost e 75%-80%)\n";
-    else
+    else if(moisture>max_optimal_moisture)
         str+="Vlazhnnosta na pochvata e nad optimalata. (Optimalna vlazhnost e 75%-80%)\n";
+    else
+        str+="Error";
 }
 
 
@@ -207,8 +220,10 @@ void nitrogen_message(float nitrogen){
         str+="Sredna zastapenost na nitraten azot vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))\n";
     else if(nitrogen>medium_nitrogen && nitrogen<=high_nitrogen)
         str+="Visoka zastapenost na nitraten azot vo pochvata (Visoka zastapenost 21-30 ppm (mg/kg))\n";
-    else
+    else if(nitrogen>high_nitrogen)
         str+="Prekumerna zastapenost na nitraten azot vo pochvata (Prekumerna zastapenost >30 ppm (mg/kg))\n";
+    else
+        str+="Error";
 }
 
 
@@ -221,8 +236,10 @@ void potassium_message(float potassium){
         str+="Sredna zastapenost na kalium vo pochvata (Sredna zastapenost 151-250 ppm (mg/kg))\n";
     else if(potassium>medium_potassium && potassium<=high_potassium)
         str+="Visoka zastapenost na kalium vo pochvata (Visoka zastapenost 251-800 ppm (mg/kg))\n";
-    else
+    else if(potassium>high_potassium)
         str+="Prekumerna zastapenost na kalium vo pochvata (Prekumerna zastapenost >800 ppm (mg/kg))\n";
+    else
+        str+="Error";
 }
 
 
@@ -234,8 +251,10 @@ void phosphorus_message(float phosphorus, float ph){
         str+="Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 20-40 ppm (mg/kg))\n";
     else if(phosphorus>medium_phosphorus_neutralacid && phosphorus<=high_phosphorus_neutralacid)
         str+="Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 41-100 ppm (mg/kg))\n";
-    else
+    else if(phosphorus>high_phosphorus_neutralacid)
         str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >100 ppm (mg/kg))\n";
+    else
+        str+="Error";
     }
     else if(ph>7){ //olsen method
         if(phosphorus<low_phosphorus_alkaline)
@@ -244,7 +263,21 @@ void phosphorus_message(float phosphorus, float ph){
         str+="Sredna zastapenost na fosfor vo pochvata (Sredna zastapenost 10-20 ppm (mg/kg))\n";
     else if(phosphorus>medium_phosphorus_alkaline && phosphorus<=high_phosphorus_alkaline)
         str+="Visoka zastapenost na fosfor vo pochvata (Visoka zastapenost 21-40 ppm (mg/kg))\n";
-    else
+    else if(phosphorus>high_phosphorus_alkaline)
         str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >40 ppm (mg/kg))\n";
+    else
+        str+="Error";
     }
+}
+
+
+void tds_message(float total_dissolved_solids){
+    if(total_dissolved_solids<min_optimal_tds)
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e pod optimalata. (Optimalna TDS vrednost 1400-2100)";
+    else if(total_dissolved_solids>=min_optimal_tds && total_dissolved_solids<=max_optimal_tds)
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e optimalen. (Optimalna TDS vrednost 1400-2100)";
+    else if(total_dissolved_solids>max_optimal_tds)
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e nad optimalata. (Optimalna TDS vrednost 1400-2100)";
+    else
+        str+="Error";
 }
