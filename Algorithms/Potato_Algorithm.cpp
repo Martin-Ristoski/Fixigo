@@ -10,7 +10,9 @@ void ph_message(float);
 void nitrogen_message(float);
 void potassium_message(float);
 void phosphorus_message(float, float);
+void salinity_message(float);
 void tds_message(float);
+void air_humidity_message(float);
 
 //global variables for temperature
     const int minmin_soiltemp_sprouting=7;
@@ -27,11 +29,12 @@ void tds_message(float);
     const int max_optimal_moisture=80;
 
 //global variables for electrical conductivity
-    const int warning_electrical_conductivity=1500;
+    const int minoptimal_electrical_conductivity=1700;
+    const int maxoptimal_electrical_conductivity=2500;
 
 //global variables for ph
-    const float min_optimal_ph=5.5;
-    const int max_optimal_ph=7;
+    const float min_optimal_ph=4.9;
+    const float max_optimal_ph=6.5;
 
 //global variables for nitrogen
     const int low_nitrogen=10;
@@ -55,6 +58,13 @@ void tds_message(float);
 //global variables for total dissolved solids
     const int min_optimal_tds=1400;
     const int max_optimal_tds=2100;
+
+//global variables for salinity
+    const int warning_salinity=2200;
+
+//global variables for air humidity
+    const int min_optimal_air_humidity=75;
+    const int max_optimal_air_humidity=80;
 
 
 //global variable for final message
@@ -90,7 +100,7 @@ int main()
     else if(sprouting==0)
         temperature_growth(temperature);
 
-/*
+
 //moisture
     cout<<"Input Moisture:"<<endl;
     cin>>moisture;
@@ -130,12 +140,13 @@ int main()
 //salinity
     cout<<"Input Salinity:"<<endl;
     cin>>salinitiy;
+    salinity_message(salinitiy);
 
 
 //total dissolved solids
     cout<<"Input Total Dissolved Solids:"<<endl;
     cin>>total_dissolved_solids;
-    tds_message(total_dissolved_solids);
+    //tds_message(total_dissolved_solids);
 
 
 
@@ -147,7 +158,8 @@ int main()
 //air humidity
     cout<<"Input Air Humidity:"<<endl;
     cin>>air_humidity;
-*/
+    air_humidity_message(air_humidity);
+
 
 
     cout<<str<<endl;
@@ -166,7 +178,7 @@ void temperature_sprouting(float temperature){
     else if(temperature>maxoptimal_soiltemp_sprouting)
         str+="Temperaturata na pochvata e nad optimalnata temperatura za niknenje. (Optimalnata temperatura e 18-20 C)\n";
     else
-        str+="Error";
+        str+="Error\n";
 
 }
 
@@ -182,7 +194,7 @@ void temperature_growth(float temperature){
     else if(temperature>stop_growth)
         str+="Temperaturata na pochvata e povisoka od 42 C, pri shto vegetacijata potpolno prestanuva (Prekin na vegetacija >42)\n";
     else
-        str+="Error";
+        str+="Error\n";
 }
 
 
@@ -194,23 +206,29 @@ void moisture_message(float moisture){
     else if(moisture>max_optimal_moisture)
         str+="Vlazhnnosta na pochvata e nad optimalata. (Optimalna vlazhnost e 75%-80%)\n";
     else
-        str+="Error";
+        str+="Error\n";
 }
 
 
 void electrical_conductivity_message(float electrical_conductivity){
-    if(electrical_conductivity>=warning_electrical_conductivity)
-        str+="Elektrichnata sprovodnost e nad optimalata, namaluvajkji go prinosot za 75%-90%.\n";
+    if(electrical_conductivity<minoptimal_electrical_conductivity)
+        str+="Elektrichnata sprovodnost e pod optimalata. (Optimalna elektrichna sprovodnost e 1700-2500 us/cm)\n";
+    else if(electrical_conductivity>=minoptimal_electrical_conductivity && electrical_conductivity<=maxoptimal_electrical_conductivity)
+        str+="Elektrichnata sprovodnost e optimalna. (Optimalna elektrichna sprovodnost e 1700-2500 us/cm)\n";
+    else if(electrical_conductivity>maxoptimal_electrical_conductivity)
+        str+="Elektrichnata sprovodnost e nad optimalata. (Optimalna elektrichna sprovodnost e 1700-2500 us/cm)\n";
+    else
+        str+="Error\n";
 }
 
 
 void ph_message(float ph){
-    if(ph<5.5)
-        str+="Pochvata e premnogu kisela, izvrshi kalifikacija. (Optimalna ph vrednost 5.5-7.0)\n";
-    else if(ph>7)
-        str+="Pochvata e premnogu bazna(alkalna). (Optimalna ph vrednost 5.5-7.0)\n";
+    if(ph<min_optimal_ph)
+        str+="Pochvata e premnogu kisela. (Optimalna ph vrednost 4.9-6.5)\n";
+    else if(ph>max_optimal_ph)
+        str+="Pochvata e premnogu bazna(alkalna). (Optimalna ph vrednost 4.9-6.5)\n";
     else
-        str+="PH vrednosta na pochvata e optimalna. (Optimalna ph vrednost 5.5-7.0)\n";
+        str+="PH vrednosta na pochvata e optimalna. (Optimalna ph vrednost 4.9-6.5)\n";
 }
 
 
@@ -224,7 +242,7 @@ void nitrogen_message(float nitrogen){
     else if(nitrogen>high_nitrogen)
         str+="Prekumerna zastapenost na nitraten azot vo pochvata (Prekumerna zastapenost >30 ppm (mg/kg))\n";
     else
-        str+="Error";
+        str+="Error\n";
 }
 
 
@@ -240,7 +258,7 @@ void potassium_message(float potassium){
     else if(potassium>high_potassium)
         str+="Prekumerna zastapenost na kalium vo pochvata (Prekumerna zastapenost >800 ppm (mg/kg))\n";
     else
-        str+="Error";
+        str+="Error\n";
 }
 
 
@@ -255,7 +273,7 @@ void phosphorus_message(float phosphorus, float ph){
     else if(phosphorus>high_phosphorus_neutralacid)
         str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >100 ppm (mg/kg))\n";
     else
-        str+="Error";
+        str+="Error\n";
     }
     else if(ph>7){ //olsen method
         if(phosphorus<low_phosphorus_alkaline)
@@ -267,18 +285,38 @@ void phosphorus_message(float phosphorus, float ph){
     else if(phosphorus>high_phosphorus_alkaline)
         str+="Prekumerna zastapenost na fosfor vo pochvata (Prekumerna zastapenost >40 ppm (mg/kg))\n";
     else
-        str+="Error";
+        str+="Error\n";
     }
+}
+
+
+void salinity_message(float salinity){
+    if(salinity<warning_salinity)
+        str+="Solenosta na pochvata e optimalna. (Optimalna solenost <2200 ppm)\n";
+    else
+        str+="Solenosta na pochvata e nad optimalata. (Optimalna solenost <2200 ppm)\n";
 }
 
 
 void tds_message(float total_dissolved_solids){
     if(total_dissolved_solids<min_optimal_tds)
-        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e pod optimalata. (Optimalna TDS vrednost 1400-2100)";
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e pod optimalata. (Optimalna TDS vrednost 1400-2100)\n";
     else if(total_dissolved_solids>=min_optimal_tds && total_dissolved_solids<=max_optimal_tds)
-        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e optimalen. (Optimalna TDS vrednost 1400-2100)";
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e optimalen. (Optimalna TDS vrednost 1400-2100)\n";
     else if(total_dissolved_solids>max_optimal_tds)
-        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e nad optimalata. (Optimalna TDS vrednost 1400-2100)";
+        str+="Vkupniot broj na rastvoreni cvrsti materii(TDS) e nad optimalata. (Optimalna TDS vrednost 1400-2100\n)";
     else
-        str+="Error";
+        str+="Error\n";
+}
+
+
+void air_humidity_message(float air_humidity){
+    if(air_humidity<min_optimal_air_humidity)
+        str+="Vlazhnnosta na vozduhot e pod optimalata. (Optimalna vlazhnost e 75%-80%)\n";
+    else if(air_humidity>=min_optimal_air_humidity && air_humidity<=max_optimal_air_humidity)
+        str+="Vlazhnosta na vozduhot e optimalna. (Optimalna vlazhnost e 75%-80%)\n";
+    else if(air_humidity>max_optimal_air_humidity)
+        str+="Vlazhnnosta na vozduhot e nad optimalata. (Optimalna vlazhnost e 75%-80%)\n";
+    else
+        str+="Error\n";
 }
