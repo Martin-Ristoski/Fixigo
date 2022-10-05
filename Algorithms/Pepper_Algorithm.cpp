@@ -174,7 +174,7 @@ void temperature_growth(float temperature){
         str+="Temperaturata na pochvata e poniska od 10 C, pri shto doagja do veneenje, zholteenje na lisjata i podocna do zastoj vo rastot na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>=wither_growth && temperature<minoptimal_soiltemp_growth)
         str+="Temperaturata na pochvata e poniska od 16 C, shto potpolno go zaostanuva rastot na piperkata.(Optimalnata temperatura e 16-25 C)\n";
-    else if(temperature>=minoptimal_soiltemp_germination && temperature<=maxoptimal_soiltemp_growth)
+    else if(temperature>=minoptimal_soiltemp_growth && temperature<=maxoptimal_soiltemp_growth)
         str+="Temperaturata na pochvata e optimalna za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
     else if(temperature>maxoptimal_soiltemp_growth && temperature<=death_growth)
         str+="Temperaturata na pochvata e nad optimalnata temperatura za rast i razvoj na piperkata. (Optimalnata temperatura e 16-25 C)\n";
@@ -204,9 +204,9 @@ void electrical_conductivity_message(float electrical_conductivity){
 
 
 void ph_message(float ph){
-    if(ph<5.5)
+    if(ph<min_optimal_ph)
         str+="Pochvata e premnogu kisela, izvrshi kalifikacija. (Optimalna ph vrednost 5.5-7.0)\n";
-    else if(ph>7)
+    else if(ph>max_optimal_ph)
         str+="Pochvata e premnogu bazna(alkalna). (Optimalna ph vrednost 5.5-7.0)\n";
     else
         str+="PH vrednosta na pochvata e optimalna. (Optimalna ph vrednost 5.5-7.0)\n";
