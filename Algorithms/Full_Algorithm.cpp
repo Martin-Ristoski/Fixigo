@@ -163,15 +163,15 @@ void pepper_main()
     //Connect to database
 
     int germination;
+    bool a=0;
     cout<<"Dali piperkata e vo faza na seenje ili 'rtenje? (da-1, ne-0)"<<endl;
     cin>>germination;
 
-    if(germination!=0 && germination!=1){
-        str+="Invalid Input\n";
-        cout<<str<<endl;
-    }
+    if(germination!=0 && germination!=1)
+        a=1;
 
 
+if(a==0){
 //temperature
     cout<<"Input Soil Temperature:"<<endl;
     cin>>temperature;
@@ -238,7 +238,9 @@ void pepper_main()
 //air humidity
     cout<<"Input Air Humidity:"<<endl;
     cin>>air_humidity;
-
+}
+    else
+        str1+="Invalid Input\n";
 
     cout<<str1<<endl;
 }
@@ -386,15 +388,14 @@ void potato_main(){
     //Connect to database
 
     int sprouting;
+    bool b=0;
     cout<<"Dali piperkata e vo faza na niknenje ili proniknuvanje? (da-1, ne-0)"<<endl;
     cin>>sprouting;
 
-    if(sprouting!=0 && sprouting!=1){
-        str+="Invalid Input\n";
-        cout<<str<<endl;
-    }
+    if(sprouting!=0 && sprouting!=1)
+        b=1;
 
-
+if(b==0){
 //temperature
     cout<<"Input Soil Temperature:"<<endl;
     cin>>temperature;
@@ -463,7 +464,9 @@ void potato_main(){
     cout<<"Input Air Humidity:"<<endl;
     cin>>air_humidity;
     air_humidity_message(air_humidity);
-
+}
+    else if(b==1)
+        str+="Invalid Input\n";
 
 
     cout<<str<<endl;
